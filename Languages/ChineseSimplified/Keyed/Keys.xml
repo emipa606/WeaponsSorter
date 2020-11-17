@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WS_SettingTechCategories>按科技分类</WS_SettingTechCategories>
+  <WS_SettingTechCategoriesDescription>是否按照武器科技水平分类?</WS_SettingTechCategoriesDescription>
+  <WS_SettingModCategories>按Mod分类</WS_SettingModCategories>
+  <WS_SettingModCategoriesDescription>是否按照武器来源的Mod分类?</WS_SettingModCategoriesDescription>
+  <WS_SettingDeselectOptions>最多勾选两个分类条件</WS_SettingDeselectOptions>
+  <WS_SettingGrenadesCategories>子分类-投掷物</WS_SettingGrenadesCategories>
+  <WS_SettingGrenadesCategoriesDescription>是否为投掷物创建新子类?</WS_SettingGrenadesCategoriesDescription>
+  <WS_SettingRangedCategories>子分类-远程</WS_SettingRangedCategories>
+  <WS_SettingRangedCategoriesDescription>是否为远程武器创建子分类?</WS_SettingRangedCategoriesDescription>
+  <WS_SettingMeleeCategories>子分类-近战</WS_SettingMeleeCategories>
+  <WS_SettingMeleeCategoriesDescription>是否为近战武器创建子分类?</WS_SettingMeleeCategoriesDescription>
+  <WS_SettingSortOrder>主/次类别</WS_SettingSortOrder>
+  <WS_SettingTech>科技</WS_SettingTech>
+  <WS_SettingMod>Mod</WS_SettingMod>
+  <WS_None>非武器</WS_None>
+  <WS_Grenade>投掷物</WS_Grenade>
+  <WS_Ranged>远程武器</WS_Ranged>
+  <WS_Melee>近战武器</WS_Melee>
+</LanguageData>

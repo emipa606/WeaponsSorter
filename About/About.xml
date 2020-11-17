@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <name>Weapons Sorter</name>
+  <packageId>Mlie.WeaponsSorter</packageId>
+  <author>Mlie</author>
+  <url>https://github.com/emipa606/WeaponsSorter</url>
+  <supportedVersions>
+    <li>1.1</li>
+    <li>1.2</li>
+  </supportedVersions>
+  <modDependencies />
+  <loadAfter />
+  <description>[img]https://i.imgur.com/WAEzk68.png[/img]
+
+[h2]A mod that sorts weapons based on various properties[/h2]
+
+[list]
+[*]Option to sort by tech-level
+[*]Option to sort by mod-name
+[*]Option for grenades subcategory
+[*]Option for ranged subcategory
+[*]Option for melee subcategory
+[/list]
+[list]
+[*]Works with all weapons, modded and vanilla
+[*]Safe to add/remove from saves
+[*]Verified to work with CE
+[/list]
+
+Russian translation by Reiquard
+Chinese translation by HawnHan
+
+Keywords: Sort, filter, weapons, categories
+
+[table]
+	[tr]
+		[td][url=https://invite.gg/Mlie][img]https://i.imgur.com/zdzzBrc.png[/img][/url][/td]
+		[td][url=https://github.com/emipa606/WeaponsSorter][img]https://i.imgur.com/kTkpTOE.png[/img][/url][/td]
+	[/tr]
+[/table]</description>
+</ModMetaData>

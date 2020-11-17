@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WS_SettingTechCategories>Tech-level categories</WS_SettingTechCategories>
+  <WS_SettingTechCategoriesDescription>Should weapons be sorted on their tech-level?</WS_SettingTechCategoriesDescription>
+  <WS_SettingModCategories>Mod categories</WS_SettingModCategories>
+  <WS_SettingModCategoriesDescription>Should weapons be sorted on what mod they are added from?</WS_SettingModCategoriesDescription>
+  <WS_SettingDeselectOptions>Max two categories can be selected at the same time</WS_SettingDeselectOptions>
+  <WS_SettingGrenadesCategories>Grenades sub-categories</WS_SettingGrenadesCategories>
+  <WS_SettingGrenadesCategoriesDescription>Should grenades be sorted in a sub-category?</WS_SettingGrenadesCategoriesDescription>
+  <WS_SettingRangedCategories>Ranged sub-categories</WS_SettingRangedCategories>
+  <WS_SettingRangedCategoriesDescription>Should ranged weapons be sorted in a sub-category?</WS_SettingRangedCategoriesDescription>
+  <WS_SettingMeleeCategories>Melee sub-categories</WS_SettingMeleeCategories>
+  <WS_SettingMeleeCategoriesDescription>Should melee weapons be sorted in a sub-category?</WS_SettingMeleeCategoriesDescription>
+  <WS_SettingSortOrder>Category sort-order</WS_SettingSortOrder>
+  <WS_SettingTech>Tech</WS_SettingTech>
+  <WS_SettingMod>Mod</WS_SettingMod>
+  <WS_None>None</WS_None>
+  <WS_Grenade>Grenades</WS_Grenade>
+  <WS_Ranged>Ranged</WS_Ranged>
+  <WS_Melee>Melee</WS_Melee>
+</LanguageData>

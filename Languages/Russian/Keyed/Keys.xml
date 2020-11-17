@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WS_SettingTechCategories>Категории технического уровня</WS_SettingTechCategories>
+  <WS_SettingTechCategoriesDescription>Следует ли группировать оружие по техническому уровню?</WS_SettingTechCategoriesDescription>
+  <WS_SettingModCategories>Категории модификаций</WS_SettingModCategories>
+  <WS_SettingModCategoriesDescription>Следует ли группировать оружие по принадлежности к добавляющей его модификации?</WS_SettingModCategoriesDescription>
+  <WS_SettingDeselectOptions>Одновременно можно выбрать только две категории!</WS_SettingDeselectOptions>
+  <WS_SettingGrenadesCategories>Подкатегория "Гранаты"</WS_SettingGrenadesCategories>
+  <WS_SettingGrenadesCategoriesDescription>Следует ли создать подкатегорию для гранат?</WS_SettingGrenadesCategoriesDescription>
+  <WS_SettingRangedCategories>Подкатегория "Оружие дальнего боя"</WS_SettingRangedCategories>
+  <WS_SettingRangedCategoriesDescription>Следует ли создать подкатегорию для оружия дальнего боя?</WS_SettingRangedCategoriesDescription>
+  <WS_SettingMeleeCategories>Подкатегория "Оружие ближнего боя"</WS_SettingMeleeCategories>
+  <WS_SettingMeleeCategoriesDescription>Следует ли создать подкатегорию для оружия ближнего боя?</WS_SettingMeleeCategoriesDescription>
+  <WS_SettingSortOrder>Порядок сортировки категорий:</WS_SettingSortOrder>
+  <WS_SettingTech>Технический уровень</WS_SettingTech>
+  <WS_SettingMod>Модификация</WS_SettingMod>
+  <WS_None>Неизвестно</WS_None>
+  <WS_Grenade>Гранаты</WS_Grenade>
+  <WS_Ranged>Оружие дальнего боя</WS_Ranged>
+  <WS_Melee>Оружие ближнего боя</WS_Melee>
+</LanguageData>
