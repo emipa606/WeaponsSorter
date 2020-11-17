@@ -7,6 +7,8 @@
   <WS_SettingDeselectOptions>Max two categories can be selected at the same time</WS_SettingDeselectOptions>
   <WS_SettingGrenadesCategories>Grenades sub-categories</WS_SettingGrenadesCategories>
   <WS_SettingGrenadesCategoriesDescription>Should grenades be sorted in a sub-category?</WS_SettingGrenadesCategoriesDescription>
+  <WS_SettingBladeLinkCategories>Persona sub-categories</WS_SettingBladeLinkCategories>
+  <WS_SettingBladeLinkCategoriesDescription>Should persona weapons be sorted in a sub-category?</WS_SettingBladeLinkCategoriesDescription>
   <WS_SettingRangedCategories>Ranged sub-categories</WS_SettingRangedCategories>
   <WS_SettingRangedCategoriesDescription>Should ranged weapons be sorted in a sub-category?</WS_SettingRangedCategoriesDescription>
   <WS_SettingMeleeCategories>Melee sub-categories</WS_SettingMeleeCategories>
@@ -16,6 +18,7 @@
   <WS_SettingMod>Mod</WS_SettingMod>
   <WS_None>None</WS_None>
   <WS_Grenade>Grenades</WS_Grenade>
+  <WS_BladeLink>Persona</WS_BladeLink>
   <WS_Ranged>Ranged</WS_Ranged>
   <WS_Melee>Melee</WS_Melee>
 </LanguageData>

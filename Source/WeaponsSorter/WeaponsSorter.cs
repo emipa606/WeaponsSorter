@@ -243,6 +243,15 @@ namespace WeaponsSorter
             }
             grenadeThingCategory.childCategories.Clear();
             grenadeThingCategory.childThingDefs.Clear();
+            var bladeLinkDefName = $"{thingCategoryDef.defName}_BladeLink";
+            ThingCategoryDef bladeLinkThingCategory = DefDatabase<ThingCategoryDef>.GetNamedSilentFail(bladeLinkDefName);
+            if (bladeLinkThingCategory == null)
+            {
+                bladeLinkThingCategory = new ThingCategoryDef { defName = bladeLinkDefName, label = "WS_BladeLink".Translate() };
+                DefGenerator.AddImpliedDef(bladeLinkThingCategory);
+            }
+            bladeLinkThingCategory.childCategories.Clear();
+            bladeLinkThingCategory.childThingDefs.Clear();
             var rangedDefName = $"{thingCategoryDef.defName}_Ranged";
             ThingCategoryDef rangedThingCategory = DefDatabase<ThingCategoryDef>.GetNamedSilentFail(rangedDefName);
             if (rangedThingCategory == null)
@@ -274,6 +283,15 @@ namespace WeaponsSorter
                         continue;
                     }
                 }
+                if (ModLister.RoyaltyInstalled && WeaponsSorterMod.instance.Settings.BladeLinkSeparate)
+                {
+                    if (weapon.weaponTags?.Contains("Bladelink") == true)
+                    {
+                        weapon.thingCategories.Add(bladeLinkThingCategory);
+                        bladeLinkThingCategory.childThingDefs.Add(weapon);
+                        continue;
+                    }
+                }
                 if (WeaponsSorterMod.instance.Settings.RangedSeparate)
                 {
                     if (weapon.IsRangedWeapon)
@@ -299,6 +317,12 @@ namespace WeaponsSorter
             {
                 grenadeThingCategory.parent = thingCategoryDef;
                 thingCategoryDef.childCategories.Add(grenadeThingCategory);
+                //armoredThingCategory.ResolveReferences();
+            }
+            if (ModLister.RoyaltyInstalled && WeaponsSorterMod.instance.Settings.BladeLinkSeparate && bladeLinkThingCategory.childThingDefs.Count > 0)
+            {
+                bladeLinkThingCategory.parent = thingCategoryDef;
+                thingCategoryDef.childCategories.Add(bladeLinkThingCategory);
                 //armoredThingCategory.ResolveReferences();
             }
             if (WeaponsSorterMod.instance.Settings.RangedSeparate && rangedThingCategory.childThingDefs.Count > 0)

@@ -7,6 +7,8 @@
   <WS_SettingDeselectOptions>最多勾选两个分类条件</WS_SettingDeselectOptions>
   <WS_SettingGrenadesCategories>子分类-投掷物</WS_SettingGrenadesCategories>
   <WS_SettingGrenadesCategoriesDescription>是否为投掷物创建新子类?</WS_SettingGrenadesCategoriesDescription>
+  <WS_SettingBladeLinkCategories>子分类-绑定武器</WS_SettingBladeLinkCategories>
+  <WS_SettingBladeLinkCategoriesDescription>是否为绑定武器创建子分类?</WS_SettingBladeLinkCategoriesDescription>
   <WS_SettingRangedCategories>子分类-远程</WS_SettingRangedCategories>
   <WS_SettingRangedCategoriesDescription>是否为远程武器创建子分类?</WS_SettingRangedCategoriesDescription>
   <WS_SettingMeleeCategories>子分类-近战</WS_SettingMeleeCategories>
@@ -16,6 +18,7 @@
   <WS_SettingMod>Mod</WS_SettingMod>
   <WS_None>非武器</WS_None>
   <WS_Grenade>投掷物</WS_Grenade>
+  <WS_BladeLink>绑定武器</WS_BladeLink>
   <WS_Ranged>远程武器</WS_Ranged>
   <WS_Melee>近战武器</WS_Melee>
 </LanguageData>

@@ -91,9 +91,12 @@ namespace WeaponsSorter
             }
             listing_Standard.GapLine();
             listing_Standard.CheckboxLabeled("WS_SettingGrenadesCategories".Translate(), ref Settings.GrenadesSeparate, "WS_SettingGrenadesCategoriesDescription".Translate());
+            if (ModLister.RoyaltyInstalled)
+            {
+                listing_Standard.CheckboxLabeled("WS_SettingBladeLinkCategories".Translate(), ref Settings.BladeLinkSeparate, "WS_SettingBladeLinkCategoriesDescription".Translate());
+            }
             listing_Standard.CheckboxLabeled("WS_SettingRangedCategories".Translate(), ref Settings.RangedSeparate, "WS_SettingRangedCategoriesDescription".Translate());
             listing_Standard.CheckboxLabeled("WS_SettingMeleeCategories".Translate(), ref Settings.MeleeSeparate, "WS_SettingMeleeCategoriesDescription".Translate());
-
             listing_Standard.End();
 
             Settings.Write();

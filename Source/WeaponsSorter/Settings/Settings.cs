@@ -13,6 +13,7 @@ namespace WeaponsSorter
         public bool RangedSeparate = false;
         public bool MeleeSeparate = false;
         public bool GrenadesSeparate = false;
+        public bool BladeLinkSeparate = false;
 
         /// <summary>
         /// Saving and loading the values
@@ -26,6 +27,7 @@ namespace WeaponsSorter
             Scribe_Values.Look(ref RangedSeparate, "RangedSeparate", false, false);
             Scribe_Values.Look(ref MeleeSeparate, "MeleeSeparate", false, false);
             Scribe_Values.Look(ref GrenadesSeparate, "GrenadesSeparate", false, false);
+            Scribe_Values.Look(ref BladeLinkSeparate, "BladeLinkSeparate", false, false);
         }
     }
 }
