@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WS_SettingTechCategories>Catégorie technologie</WS_SettingTechCategories>
+  <WS_SettingTechCategoriesDescription>Les armes devraient-elles être triées en fonction de leur niveau technologique?</WS_SettingTechCategoriesDescription>
+  <WS_SettingModCategories>Catégories de mod</WS_SettingModCategories>
+  <WS_SettingModCategoriesDescription>Les armes doivent-elles être triées selon le mod à partir duquel elles sont ajoutées??</WS_SettingModCategoriesDescription>
+  <WS_SettingDeselectOptions>Deux catégories au maximum peuvent être sélectionnées en même temps</WS_SettingDeselectOptions>
+  <WS_SettingGrenadesCategories>Sous-catégories de grenades</WS_SettingGrenadesCategories>
+  <WS_SettingGrenadesCategoriesDescription>Should grenades be sorted in a sub-category?</WS_SettingGrenadesCategoriesDescription>
+  <WS_SettingBladeLinkCategories>Persona sub-categories</WS_SettingBladeLinkCategories>
+  <WS_SettingBladeLinkCategoriesDescription>Should persona weapons be sorted in a sub-category?</WS_SettingBladeLinkCategoriesDescription>
+  <WS_SettingRangedCategories>Sous-catégories à distance</WS_SettingRangedCategories>
+  <WS_SettingRangedCategoriesDescription>Les armes à distance devraient-elles être classées dans une sous-catégorie?</WS_SettingRangedCategoriesDescription>
+  <WS_SettingMeleeCategories>Sous-catégories de mêlée</WS_SettingMeleeCategories>
+  <WS_SettingMeleeCategoriesDescription>Les armes de mêlée devraient-elles être classées dans une sous-catégorie?</WS_SettingMeleeCategoriesDescription>
+  <WS_SettingSortOrder>Ordre de tri des catégories</WS_SettingSortOrder>
+  <WS_SettingTech>Technologie</WS_SettingTech>
+  <WS_SettingMod>Mod</WS_SettingMod>
+  <WS_None>Non</WS_None>
+  <WS_Grenade>Grenades</WS_Grenade>
+  <WS_BladeLink>Persona</WS_BladeLink>
+  <WS_Ranged>A distance</WS_Ranged>
+  <WS_Melee>Mêlée</WS_Melee>
+</LanguageData>

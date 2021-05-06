@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
   <name>Weapons Sorter</name>
   <packageId>Mlie.WeaponsSorter</packageId>
@@ -18,7 +18,6 @@
 [*]Option to sort by tech-level
 [*]Option to sort by mod-name
 [*]Option for grenades subcategory
-[*]Option for persona weapons subcategory
 [*]Option for ranged subcategory
 [*]Option for melee subcategory
 [/list]
@@ -38,5 +37,17 @@ Keywords: Sort, filter, weapons, categories
 		[td][url=https://invite.gg/Mlie][img]https://i.imgur.com/zdzzBrc.png[/img][/url][/td]
 		[td][url=https://github.com/emipa606/WeaponsSorter][img]https://i.imgur.com/kTkpTOE.png[/img][/url][/td]
 	[/tr]
-[/table]</description>
+[/table]
+
+[img]https://i.imgur.com/Rs6T6cr.png[/img]
+[list]
+[*] See if the the error persists if you just have this mod and its requirements active.
+[*] If not, try adding your other mods until it happens again.
+[*] Post your error-log using [url=https://steamcommunity.com/workshop/filedetails/?id=818773962]HugsLib[/url] and command Ctrl+F12
+[*] For best support, please use the Discord-channel for error-reporting.
+[*] Do not report errors by making a discussion-thread, I get no notification of that.
+[*] If you have the solution for a problem, please post it to the GitHub repository.
+[/list]
+</description>
 </ModMetaData>
+
