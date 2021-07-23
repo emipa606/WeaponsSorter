@@ -101,7 +101,7 @@ namespace WeaponsSorter
                 }
             }
 
-            //ThingCategoryDefOf.Weapons.ResolveReferences();
+            ThingCategoryDefOf.Weapons.ResolveReferences();
             Log.Message("Weapons Sorter: Update done.");
         }
 

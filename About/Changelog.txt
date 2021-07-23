@@ -1,5 +1,8 @@
 # Changelog for WeaponsSorter
 
+1.0.4.0 - Missed resolving references for the base-category
+
+
 1.0.3.0 - Added resolving of references for the categories since vanilla does not nullcheck
 
 
