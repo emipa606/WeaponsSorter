@@ -1,5 +1,8 @@
 # Changelog for WeaponsSorter
 
+1.0.3.0 - Added resolving of references for the categories since vanilla does not nullcheck
+
+
 1.0.2.0 - Added french translation, thanks qux!
 
 

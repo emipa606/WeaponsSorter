@@ -3,7 +3,8 @@
 ![Image](https://i.imgur.com/WAEzk68.png)
 
 
-[h2]A mod that sorts weapons based on various properties[/h2]
+## A mod that sorts weapons based on various properties
+
 
 
 
@@ -24,6 +25,7 @@
 
 Russian translation by Reiquard
 Chinese translation by HawnHan
+French translation by qux
 
 Keywords: Sort, filter, weapons, categories
 
@@ -36,6 +38,13 @@ Keywords: Sort, filter, weapons, categories
 	[/tr]
 [/table]
 
+![Image](https://i.imgur.com/pgjQLXV.png)
+
+Since modding is just a hobby for me I expect no donations to keep modding. If you still want to show your support you can gift me anything from my https://store.steampowered.com/wishlist/id/Mlie]Wishlist or buy me a cup of tea.
+
+https://ko-fi.com/G2G55DDYD]![Image](https://i.ibb.co/VWJJb3w/Support-Me-dark-2x.png)
+
+
 ![Image](https://i.imgur.com/Rs6T6cr.png)
 
 
@@ -46,6 +55,5 @@ Keywords: Sort, filter, weapons, categories
 -  For best support, please use the Discord-channel for error-reporting.
 -  Do not report errors by making a discussion-thread, I get no notification of that.
 -  If you have the solution for a problem, please post it to the GitHub repository.
-
 
 
