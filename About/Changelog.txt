@@ -1,5 +1,8 @@
 # Changelog for WeaponsSorter
 
+1.0.5.0 - Added Korean translation, thanks isty2e!
+
+
 1.0.4.0 - Missed resolving references for the base-category
 
 
