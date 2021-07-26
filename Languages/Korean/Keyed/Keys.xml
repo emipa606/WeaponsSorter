@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <WS_SettingTechCategories>기술 수준 분류</WS_SettingTechCategories>
+  <WS_SettingTechCategoriesDescription>기술 수준에 따라 무기를 정렬할까요?</WS_SettingTechCategoriesDescription>
+  <WS_SettingModCategories>모드 분류</WS_SettingModCategories>
+  <WS_SettingModCategoriesDescription>추가하는 모드에 따라 무기를 정렬할까요?</WS_SettingModCategoriesDescription>
+  <WS_SettingDeselectOptions>한 번에 최대 두 분류만 선택할 수 있습니다</WS_SettingDeselectOptions>
+  <WS_SettingGrenadesCategories>수류탄 소분류</WS_SettingGrenadesCategories>
+  <WS_SettingGrenadesCategoriesDescription>수류탄을 별도의 소분류로 정렬할까요?</WS_SettingGrenadesCategoriesDescription>
+  <WS_SettingBladeLinkCategories>결속 무기 소분류</WS_SettingBladeLinkCategories>
+  <WS_SettingBladeLinkCategoriesDescription>결속 무기를 별도의 소분류로 정렬할까요?</WS_SettingBladeLinkCategoriesDescription>
+  <WS_SettingRangedCategories>원거리 소분류</WS_SettingRangedCategories>
+  <WS_SettingRangedCategoriesDescription>원거리 무기를 별도의 소분류로 정렬할까요?</WS_SettingRangedCategoriesDescription>
+  <WS_SettingMeleeCategories>근접 소분류</WS_SettingMeleeCategories>
+  <WS_SettingMeleeCategoriesDescription>근접 무기를 별도의 소분류로 정렬할까요?</WS_SettingMeleeCategoriesDescription>
+  <WS_SettingSortOrder>분류 정렬 순서</WS_SettingSortOrder>
+  <WS_SettingTech>기술</WS_SettingTech>
+  <WS_SettingMod>모드</WS_SettingMod>
+  <WS_None>없음</WS_None>
+  <WS_Grenade>수류탄</WS_Grenade>
+  <WS_BladeLink>결속</WS_BladeLink>
+  <WS_Ranged>원거리</WS_Ranged>
+  <WS_Melee>근접</WS_Melee>
+</LanguageData>
