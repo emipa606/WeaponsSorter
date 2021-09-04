@@ -56,7 +56,7 @@ namespace WeaponsSorter
             }
 
             var allSortOptions = new List<bool>
-                {WeaponsSorterMod.instance.Settings.SortByTech, WeaponsSorterMod.instance.Settings.SortByMod};
+                { WeaponsSorterMod.instance.Settings.SortByTech, WeaponsSorterMod.instance.Settings.SortByMod };
             if (WeaponsSorterMod.AtLeastTwo(allSortOptions))
             {
                 var firstSortOption = -1;
@@ -75,7 +75,7 @@ namespace WeaponsSorter
                         continue;
                     }
 
-                    nextSortOption = (NextSortOption) i;
+                    nextSortOption = (NextSortOption)i;
                 }
 
                 switch (firstSortOption)
@@ -124,7 +124,7 @@ namespace WeaponsSorter
                 if (techLevelThingCategory == null)
                 {
                     techLevelThingCategory = new ThingCategoryDef
-                        {defName = techLevelDefName, label = techLevel.ToStringHuman()};
+                        { defName = techLevelDefName, label = techLevel.ToStringHuman() };
                     DefGenerator.AddImpliedDef(techLevelThingCategory);
                 }
 
@@ -169,7 +169,7 @@ namespace WeaponsSorter
             {
                 var weaponToCheck =
                     (from weaponDef in weaponToSort
-                        where weaponDef.modContentPack is {PackageId: { }} &&
+                        where weaponDef.modContentPack is { PackageId: { } } &&
                               weaponDef.modContentPack.PackageId == modData.PackageId
                         select weaponDef).ToHashSet();
                 var modDefName = $"{thingCategoryDef.defName}_{modData.PackageId}";
@@ -181,7 +181,7 @@ namespace WeaponsSorter
                 var modThingCategory = DefDatabase<ThingCategoryDef>.GetNamedSilentFail(modDefName);
                 if (modThingCategory == null)
                 {
-                    modThingCategory = new ThingCategoryDef {defName = modDefName, label = modData.Name};
+                    modThingCategory = new ThingCategoryDef { defName = modDefName, label = modData.Name };
                     DefGenerator.AddImpliedDef(modThingCategory);
                 }
 
@@ -235,7 +235,7 @@ namespace WeaponsSorter
             if (missingModThingCategory == null)
             {
                 missingModThingCategory = new ThingCategoryDef
-                    {defName = missingModDefName, label = "WS_None".Translate()};
+                    { defName = missingModDefName, label = "WS_None".Translate() };
                 DefGenerator.AddImpliedDef(missingModThingCategory);
             }
 
@@ -283,7 +283,7 @@ namespace WeaponsSorter
             if (grenadeThingCategory == null)
             {
                 grenadeThingCategory = new ThingCategoryDef
-                    {defName = grenadeDefName, label = "WS_Grenade".Translate()};
+                    { defName = grenadeDefName, label = "WS_Grenade".Translate() };
                 DefGenerator.AddImpliedDef(grenadeThingCategory);
             }
 
@@ -294,7 +294,7 @@ namespace WeaponsSorter
             if (bladeLinkThingCategory == null)
             {
                 bladeLinkThingCategory = new ThingCategoryDef
-                    {defName = bladeLinkDefName, label = "WS_BladeLink".Translate()};
+                    { defName = bladeLinkDefName, label = "WS_BladeLink".Translate() };
                 DefGenerator.AddImpliedDef(bladeLinkThingCategory);
             }
 
@@ -304,7 +304,7 @@ namespace WeaponsSorter
             var rangedThingCategory = DefDatabase<ThingCategoryDef>.GetNamedSilentFail(rangedDefName);
             if (rangedThingCategory == null)
             {
-                rangedThingCategory = new ThingCategoryDef {defName = rangedDefName, label = "WS_Ranged".Translate()};
+                rangedThingCategory = new ThingCategoryDef { defName = rangedDefName, label = "WS_Ranged".Translate() };
                 DefGenerator.AddImpliedDef(rangedThingCategory);
             }
 
@@ -314,7 +314,7 @@ namespace WeaponsSorter
             var meleeThingCategory = DefDatabase<ThingCategoryDef>.GetNamedSilentFail(meleeDefName);
             if (meleeThingCategory == null)
             {
-                meleeThingCategory = new ThingCategoryDef {defName = meleeDefName, label = "WS_Melee".Translate()};
+                meleeThingCategory = new ThingCategoryDef { defName = meleeDefName, label = "WS_Melee".Translate() };
                 DefGenerator.AddImpliedDef(meleeThingCategory);
             }
 

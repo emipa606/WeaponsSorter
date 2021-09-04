@@ -69,7 +69,7 @@ namespace WeaponsSorter
                 Settings.SortByTech = true;
             }
 
-            if (AtLeastTwo(new List<bool> {Settings.SortByTech, Settings.SortByMod}))
+            if (AtLeastTwo(new List<bool> { Settings.SortByTech, Settings.SortByMod }))
             {
                 var categories = new string[2];
                 listing_Standard.CheckboxLabeled("WS_SettingTechCategories".Translate(), ref Settings.SortByTech,
