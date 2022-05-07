@@ -21,5 +21,6 @@
   <WS_BladeLink>Persona</WS_BladeLink>
   <WS_Ranged>Ranged</WS_Ranged>
   <WS_Melee>Melee</WS_Melee>
+  <Undefined>Undefined</Undefined>
   <WS_CurrentModVersion>Installed mod-version: {0}</WS_CurrentModVersion>
 </LanguageData>

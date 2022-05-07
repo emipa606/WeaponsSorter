@@ -9,24 +9,47 @@ namespace WeaponsSorter;
 [StaticConstructorOnStartup]
 public class WeaponsSorter
 {
+    private static readonly ThingCategoryDef ceAmmoCategoryDef;
+    private static readonly IEnumerable<ThingCategoryDef> categoriesToIgnore = new List<ThingCategoryDef>();
+
     static WeaponsSorter()
     {
+        ceAmmoCategoryDef = DefDatabase<ThingCategoryDef>.GetNamedSilentFail("Ammo");
+        if (ceAmmoCategoryDef != null)
+        {
+            categoriesToIgnore = ceAmmoCategoryDef.ThisAndChildCategoryDefs;
+            Log.Message($"[WeaponsSorter]: CE is loaded, ignoring {categoriesToIgnore.Count()} thingCategories");
+        }
+
         SortWeapons();
     }
 
     public static void SortWeapons()
     {
-        var weaponsInGame = ThingCategoryDefOf.Weapons.DescendantThingDefs.ToHashSet();
-        //var weaponInGame = (from weaponDef in DefDatabase<ThingDef>.AllDefsListForReading
-        //                     where weaponDef.Isweapon && weaponDef.thingCategories != null && weaponDef.thingCategories.Count() > 0
-        //                     select weaponDef).ToList();
+        var weaponsInGame = ThingCategoryDefOf.Weapons.DescendantThingDefs
+            .Where(def => def.thingCategories.SharesElementWith(categoriesToIgnore) == false)
+            .ToHashSet();
 
         Log.Message($"Weapons Sorter: Updating {weaponsInGame.Count} weapon categories.");
 
-        foreach (var category in ThingCategoryDefOf.Weapons.ThisAndChildCategoryDefs)
+        foreach (var category in ThingCategoryDefOf.Weapons.ThisAndChildCategoryDefs.Where(def =>
+                     !categoriesToIgnore.Contains(def)))
         {
+            if (category == ceAmmoCategoryDef)
+            {
+                continue;
+            }
+
             category.childThingDefs.Clear();
-            category.childCategories.Clear();
+            if (category == ThingCategoryDefOf.Weapons && ceAmmoCategoryDef != null)
+            {
+                category.childCategories = new List<ThingCategoryDef> { ceAmmoCategoryDef };
+            }
+            else
+            {
+                category.childCategories.Clear();
+            }
+
             if (category.parent != ThingCategoryDefOf.Root)
             {
                 category.parent = null;
