@@ -11,6 +11,7 @@ public class WeaponsSorter
 {
     private static readonly ThingCategoryDef ceAmmoCategoryDef;
     private static readonly IEnumerable<ThingCategoryDef> categoriesToIgnore = new List<ThingCategoryDef>();
+    private static Dictionary<string, List<ThingDef>> WeaponTagDictionary;
 
     static WeaponsSorter()
     {
@@ -21,7 +22,31 @@ public class WeaponsSorter
             Log.Message($"[WeaponsSorter]: CE is loaded, ignoring {categoriesToIgnore.Count()} thingCategories");
         }
 
+        UpdateTags();
         SortWeapons();
+    }
+
+    public static void UpdateTags()
+    {
+        WeaponTagDictionary = new Dictionary<string, List<ThingDef>>();
+        foreach (var weapon in ThingCategoryDefOf.Weapons.DescendantThingDefs)
+        {
+            if (weapon.weaponTags == null || !weapon.weaponTags.Any())
+            {
+                continue;
+            }
+
+            foreach (var weaponTag in weapon.weaponTags)
+            {
+                if (!WeaponTagDictionary.ContainsKey(weaponTag))
+                {
+                    WeaponTagDictionary[weaponTag] = new List<ThingDef> { weapon };
+                    continue;
+                }
+
+                WeaponTagDictionary[weaponTag].Add(weapon);
+            }
+        }
     }
 
     public static void SortWeapons()
@@ -79,35 +104,51 @@ public class WeaponsSorter
         }
 
         var allSortOptions = new List<bool>
-            { WeaponsSorterMod.instance.Settings.SortByTech, WeaponsSorterMod.instance.Settings.SortByMod };
-        if (WeaponsSorterMod.AtLeastTwo(allSortOptions))
         {
-            var firstSortOption = -1;
-            var nextSortOption = NextSortOption.None;
-            for (var i = 0; i < allSortOptions.Count; i++)
+            WeaponsSorterMod.instance.Settings.SortByTech, WeaponsSorterMod.instance.Settings.SortByMod,
+            WeaponsSorterMod.instance.Settings.SortByTag
+        };
+        if (allSortOptions.Count(b => b.Equals(true)) == 2)
+        {
+            var firstOption = NextSortOption.None;
+            var secondOption = NextSortOption.None;
+            for (var j = 0; j < allSortOptions.Count; j++)
             {
-                if (!allSortOptions[i])
+                if (!allSortOptions[j])
                 {
                     continue;
                 }
 
-                if (WeaponsSorterMod.instance.Settings.SortSetting == 0 && firstSortOption == -1 ||
-                    WeaponsSorterMod.instance.Settings.SortSetting == 1 && nextSortOption != NextSortOption.None)
-                {
-                    firstSortOption = i;
-                    continue;
-                }
-
-                nextSortOption = (NextSortOption)i;
+                firstOption = (NextSortOption)j;
+                break;
             }
 
-            switch (firstSortOption)
+            for (var j = allSortOptions.Count - 1; j > -1; j--)
             {
-                case 0:
-                    SortByTech(weaponsInGame, ThingCategoryDefOf.Weapons, nextSortOption);
+                if (!allSortOptions[j])
+                {
+                    continue;
+                }
+
+                secondOption = (NextSortOption)j;
+                break;
+            }
+
+            if (WeaponsSorterMod.instance.Settings.SortSetting == 1)
+            {
+                (firstOption, secondOption) = (secondOption, firstOption);
+            }
+
+            switch (firstOption)
+            {
+                case NextSortOption.Tech:
+                    SortByTech(weaponsInGame, ThingCategoryDefOf.Weapons, secondOption);
                     break;
-                case 1:
-                    SortByMod(weaponsInGame, ThingCategoryDefOf.Weapons, nextSortOption);
+                case NextSortOption.Mod:
+                    SortByMod(weaponsInGame, ThingCategoryDefOf.Weapons, secondOption);
+                    break;
+                case NextSortOption.Tag:
+                    SortByTag(weaponsInGame, ThingCategoryDefOf.Weapons, secondOption);
                     break;
             }
         }
@@ -121,6 +162,11 @@ public class WeaponsSorter
             if (WeaponsSorterMod.instance.Settings.SortByMod)
             {
                 SortByMod(weaponsInGame, ThingCategoryDefOf.Weapons);
+            }
+
+            if (WeaponsSorterMod.instance.Settings.SortByTag)
+            {
+                SortByTag(weaponsInGame, ThingCategoryDefOf.Weapons);
             }
         }
 
@@ -169,6 +215,129 @@ public class WeaponsSorter
                 {
                     case NextSortOption.Mod:
                         SortByMod(weaponToCheck, techLevelThingCategory);
+                        break;
+                    case NextSortOption.Tag:
+                        SortByTag(weaponToCheck, techLevelThingCategory);
+                        break;
+                }
+
+                if (techLevelThingCategory.childCategories.Count <= 0)
+                {
+                    continue;
+                }
+
+                thingCategoryDef.childCategories.Add(techLevelThingCategory);
+                techLevelThingCategory.parent = thingCategoryDef;
+            }
+
+            thingCategoryDef.ResolveReferences();
+        }
+    }
+
+    private static void SortByTag(HashSet<ThingDef> weaponToSort, ThingCategoryDef thingCategoryDef,
+        NextSortOption nextSortOption = NextSortOption.None)
+    {
+        Log.Message($"Sorting by tag, then by {nextSortOption}");
+
+        foreach (var tag in WeaponTagDictionary.Keys.OrderBy(s => s))
+        {
+            if (!weaponToSort.SharesElementWith(WeaponTagDictionary[tag]))
+            {
+                continue;
+            }
+
+            var tagCategoryDefName = $"{thingCategoryDef.defName}_tag_{tag}";
+            if (thingCategoryDef == ThingCategoryDefOf.Weapons)
+            {
+                tagCategoryDefName = $"WS_tag_{tag}";
+            }
+
+            var tagThingCategory = DefDatabase<ThingCategoryDef>.GetNamedSilentFail(tagCategoryDefName);
+            if (tagThingCategory == null)
+            {
+                tagThingCategory = new ThingCategoryDef
+                    { defName = tagCategoryDefName, label = tag.CapitalizeFirst() };
+                DefGenerator.AddImpliedDef(tagThingCategory);
+            }
+
+            var weaponToCheck = weaponToSort.Intersect(WeaponTagDictionary[tag]).ToHashSet();
+
+            if (nextSortOption == NextSortOption.None)
+            {
+                AddweaponToCategory(weaponToCheck, tagThingCategory);
+                if (tagThingCategory.childThingDefs.Count <= 0 &&
+                    tagThingCategory.childCategories.Count <= 0)
+                {
+                    continue;
+                }
+
+                thingCategoryDef.childCategories.Add(tagThingCategory);
+                tagThingCategory.parent = thingCategoryDef;
+            }
+            else
+            {
+                switch (nextSortOption)
+                {
+                    case NextSortOption.Mod:
+                        SortByMod(weaponToCheck, tagThingCategory);
+                        break;
+                    case NextSortOption.Tech:
+                        SortByTech(weaponToCheck, tagThingCategory);
+                        break;
+                }
+
+                if (tagThingCategory.childCategories.Count <= 0)
+                {
+                    continue;
+                }
+
+                thingCategoryDef.childCategories.Add(tagThingCategory);
+                tagThingCategory.parent = thingCategoryDef;
+            }
+
+            thingCategoryDef.ResolveReferences();
+        }
+
+        foreach (TechLevel techLevel in Enum.GetValues(typeof(TechLevel)))
+        {
+            var weaponToCheck =
+                (from weaponDef in weaponToSort where weaponDef.techLevel == techLevel select weaponDef)
+                .ToHashSet();
+            var techLevelDefName = $"{thingCategoryDef.defName}_{techLevel}";
+            if (thingCategoryDef == ThingCategoryDefOf.Weapons)
+            {
+                techLevelDefName = $"WS_{techLevel}";
+            }
+
+            var techLevelThingCategory = DefDatabase<ThingCategoryDef>.GetNamedSilentFail(techLevelDefName);
+            if (techLevelThingCategory == null)
+            {
+                techLevelThingCategory = new ThingCategoryDef
+                    { defName = techLevelDefName, label = techLevel.ToStringHuman() };
+                DefGenerator.AddImpliedDef(techLevelThingCategory);
+            }
+
+            if (nextSortOption == NextSortOption.None)
+            {
+                AddweaponToCategory(weaponToCheck, techLevelThingCategory);
+                if (techLevelThingCategory.childThingDefs.Count <= 0 &&
+                    techLevelThingCategory.childCategories.Count <= 0)
+                {
+                    continue;
+                }
+
+                thingCategoryDef.childCategories.Add(techLevelThingCategory);
+                techLevelThingCategory.parent = thingCategoryDef;
+            }
+            else
+            {
+                switch (nextSortOption)
+                {
+                    case NextSortOption.Mod:
+                        SortByMod(weaponToCheck, techLevelThingCategory);
+                        break;
+                    case NextSortOption.Tech:
+                        SortByTech(weaponToCheck, techLevelThingCategory);
                         break;
                 }
 
@@ -227,6 +396,9 @@ public class WeaponsSorter
                     case NextSortOption.Tech:
                         SortByTech(weaponToCheck, modThingCategory);
                         break;
+                    case NextSortOption.Mod:
+                        SortByMod(weaponToCheck, modThingCategory);
+                        break;
                 }
 
                 if (modThingCategory.childCategories.Count <= 0)
@@ -243,55 +415,58 @@ public class WeaponsSorter
 
         var missingweaponToCheck =
             (from weaponDef in weaponToSort
-                where weaponDef.modContentPack == null || weaponDef.modContentPack.PackageId == null
+                where weaponDef.weaponTags == null || !weaponDef.weaponTags.Any()
                 select weaponDef).ToHashSet();
         if (missingweaponToCheck.Count == 0)
         {
             return;
         }
 
-        var missingModDefName = $"{thingCategoryDef.defName}_Mod_None";
+        var missingTagDefName = $"{thingCategoryDef.defName}_Tag_None";
         if (thingCategoryDef == ThingCategoryDefOf.Weapons)
         {
-            missingModDefName = "WS_Mod_None";
+            missingTagDefName = "WS_Tag_None";
         }
 
-        var missingModThingCategory = DefDatabase<ThingCategoryDef>.GetNamedSilentFail(missingModDefName);
-        if (missingModThingCategory == null)
+        var missingTagThingCategory = DefDatabase<ThingCategoryDef>.GetNamedSilentFail(missingTagDefName);
+        if (missingTagThingCategory == null)
         {
-            missingModThingCategory = new ThingCategoryDef
-                { defName = missingModDefName, label = "WS_None".Translate() };
-            DefGenerator.AddImpliedDef(missingModThingCategory);
+            missingTagThingCategory = new ThingCategoryDef
+                { defName = missingTagDefName, label = "WS_None".Translate() };
+            DefGenerator.AddImpliedDef(missingTagThingCategory);
         }
 
         if (nextSortOption == NextSortOption.None)
         {
-            AddweaponToCategory(missingweaponToCheck, missingModThingCategory);
-            if (missingModThingCategory.childThingDefs.Count <= 0 &&
-                missingModThingCategory.childCategories.Count <= 0)
+            AddweaponToCategory(missingweaponToCheck, missingTagThingCategory);
+            if (missingTagThingCategory.childThingDefs.Count <= 0 &&
+                missingTagThingCategory.childCategories.Count <= 0)
             {
                 return;
             }
 
-            thingCategoryDef.childCategories.Add(missingModThingCategory);
-            missingModThingCategory.parent = thingCategoryDef;
+            thingCategoryDef.childCategories.Add(missingTagThingCategory);
+            missingTagThingCategory.parent = thingCategoryDef;
         }
         else
         {
             switch (nextSortOption)
             {
                 case NextSortOption.Tech:
-                    SortByTech(missingweaponToCheck, missingModThingCategory);
+                    SortByTech(missingweaponToCheck, missingTagThingCategory);
+                    break;
+                case NextSortOption.Mod:
+                    SortByMod(missingweaponToCheck, missingTagThingCategory);
                     break;
             }
 
-            if (missingModThingCategory.childCategories.Count <= 0)
+            if (missingTagThingCategory.childCategories.Count <= 0)
             {
                 return;
             }
 
-            thingCategoryDef.childCategories.Add(missingModThingCategory);
-            missingModThingCategory.parent = thingCategoryDef;
+            thingCategoryDef.childCategories.Add(missingTagThingCategory);
+            missingTagThingCategory.parent = thingCategoryDef;
         }
     }
 
@@ -431,6 +606,7 @@ public class WeaponsSorter
     {
         Tech = 0,
         Mod = 1,
-        None = 2
+        Tag = 2,
+        None = 3
     }
 }

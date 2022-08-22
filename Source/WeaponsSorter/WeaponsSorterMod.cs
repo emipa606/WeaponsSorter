@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Mlie;
 using UnityEngine;
 using Verse;
@@ -69,20 +70,46 @@ internal class WeaponsSorterMod : Mod
         GUI.contentColor = Color.yellow;
         //listing_Standard.Label("WS_SettingDeselectOptions".Translate());
         GUI.contentColor = Color.white;
-        if (!(Settings.SortByTech || Settings.SortByMod))
+        if (!(Settings.SortByTech || Settings.SortByMod || Settings.SortByTag))
         {
             Settings.SortByTech = true;
         }
 
-        if (AtLeastTwo(new List<bool> { Settings.SortByTech, Settings.SortByMod }))
+        var enabledSettings = new List<bool> { Settings.SortByTech, Settings.SortByMod, Settings.SortByTag };
+        if (enabledSettings.Count(b => b.Equals(true)) == 2)
         {
             var categories = new string[2];
-            listing_Standard.CheckboxLabeled("WS_SettingTechCategories".Translate(), ref Settings.SortByTech,
-                "WS_SettingTechCategoriesDescription".Translate());
-            categories[0] = "WS_SettingTech".Translate();
-            listing_Standard.CheckboxLabeled("WS_SettingModCategories".Translate(), ref Settings.SortByMod,
-                "WS_SettingModCategoriesDescription".Translate());
-            categories[1] = "WS_SettingMod".Translate();
+            var i = 0;
+            for (var j = 0; j < enabledSettings.Count; j++)
+            {
+                if (!enabledSettings[j])
+                {
+                    continue;
+                }
+
+                switch (j)
+                {
+                    case 0:
+                        listing_Standard.CheckboxLabeled("WS_SettingTechCategories".Translate(),
+                            ref Settings.SortByTech,
+                            "WS_SettingTechCategoriesDescription".Translate());
+                        categories[i] = "WS_SettingTech".Translate();
+                        break;
+                    case 1:
+                        listing_Standard.CheckboxLabeled("WS_SettingModCategories".Translate(), ref Settings.SortByMod,
+                            "WS_SettingModCategoriesDescription".Translate());
+                        categories[i] = "WS_SettingMod".Translate();
+                        break;
+                    case 2:
+                        listing_Standard.CheckboxLabeled("WS_SettingTagCategories".Translate(), ref Settings.SortByTag,
+                            "WS_SettingTagCategoriesDescription".Translate());
+                        categories[i] = "WS_SettingTag".Translate();
+                        break;
+                }
+
+                i++;
+            }
+
             listing_Standard.Gap();
             listing_Standard.Label("WS_SettingSortOrder".Translate());
             if (listing_Standard.RadioButton($"{categories[0]} / {categories[1]}",
@@ -103,6 +130,8 @@ internal class WeaponsSorterMod : Mod
                 "WS_SettingTechCategoriesDescription".Translate());
             listing_Standard.CheckboxLabeled("WS_SettingModCategories".Translate(), ref Settings.SortByMod,
                 "WS_SettingModCategoriesDescription".Translate());
+            listing_Standard.CheckboxLabeled("WS_SettingTagCategories".Translate(), ref Settings.SortByTag,
+                "WS_SettingTagCategoriesDescription".Translate());
 
             GUI.contentColor = Color.grey;
             listing_Standard.Gap();
@@ -142,30 +171,5 @@ internal class WeaponsSorterMod : Mod
     {
         base.WriteSettings();
         WeaponsSorter.SortWeapons();
-    }
-
-    public static bool AtLeastTwo(List<bool> listOfBool)
-    {
-        switch (listOfBool.Count)
-        {
-            case 1:
-                listOfBool.Add(false);
-                listOfBool.Add(false);
-                break;
-            case 2:
-                listOfBool.Add(false);
-                break;
-            case 3:
-                break;
-            default:
-                return false;
-        }
-
-        return AtLeastTwo(listOfBool[0], listOfBool[1], listOfBool[2]);
-    }
-
-    private static bool AtLeastTwo(bool a, bool b, bool c)
-    {
-        return a && (b || c) || b && c;
     }
 }

@@ -4,6 +4,8 @@
   <WS_SettingTechCategoriesDescription>Should weapons be sorted on their tech-level?</WS_SettingTechCategoriesDescription>
   <WS_SettingModCategories>Mod categories</WS_SettingModCategories>
   <WS_SettingModCategoriesDescription>Should weapons be sorted on what mod they are added from?</WS_SettingModCategoriesDescription>
+  <WS_SettingTagCategories>Tag categories</WS_SettingTagCategories>
+  <WS_SettingTagCategoriesDescription>Should weapons be sorted on what weapon-tags they have?</WS_SettingTagCategoriesDescription>
   <WS_SettingDeselectOptions>Max two categories can be selected at the same time</WS_SettingDeselectOptions>
   <WS_SettingGrenadesCategories>Grenades sub-categories</WS_SettingGrenadesCategories>
   <WS_SettingGrenadesCategoriesDescription>Should grenades be sorted in a sub-category?</WS_SettingGrenadesCategoriesDescription>
@@ -16,6 +18,7 @@
   <WS_SettingSortOrder>Category sort-order</WS_SettingSortOrder>
   <WS_SettingTech>Tech</WS_SettingTech>
   <WS_SettingMod>Mod</WS_SettingMod>
+  <WS_SettingTag>Tag</WS_SettingTag>
   <WS_None>None</WS_None>
   <WS_Grenade>Grenades</WS_Grenade>
   <WS_BladeLink>Persona</WS_BladeLink>

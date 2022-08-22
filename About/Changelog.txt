@@ -1,5 +1,9 @@
 # Changelog for WeaponsSorter
 
+1.3.4 - Added sorting by weapon-tag.
+Used DeepL to update translations for ChineseSimplified, French, Russian
+
+
 1.3.3 - Will now ignore the ammo-category added by Combat extended.
 
 
