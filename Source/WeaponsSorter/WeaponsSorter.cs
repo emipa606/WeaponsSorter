@@ -298,121 +298,6 @@ public class WeaponsSorter
             thingCategoryDef.ResolveReferences();
         }
 
-        foreach (TechLevel techLevel in Enum.GetValues(typeof(TechLevel)))
-        {
-            var weaponToCheck =
-                (from weaponDef in weaponToSort where weaponDef.techLevel == techLevel select weaponDef)
-                .ToHashSet();
-            var techLevelDefName = $"{thingCategoryDef.defName}_{techLevel}";
-            if (thingCategoryDef == ThingCategoryDefOf.Weapons)
-            {
-                techLevelDefName = $"WS_{techLevel}";
-            }
-
-            var techLevelThingCategory = DefDatabase<ThingCategoryDef>.GetNamedSilentFail(techLevelDefName);
-            if (techLevelThingCategory == null)
-            {
-                techLevelThingCategory = new ThingCategoryDef
-                    { defName = techLevelDefName, label = techLevel.ToStringHuman() };
-                DefGenerator.AddImpliedDef(techLevelThingCategory);
-            }
-
-            if (nextSortOption == NextSortOption.None)
-            {
-                AddweaponToCategory(weaponToCheck, techLevelThingCategory);
-                if (techLevelThingCategory.childThingDefs.Count <= 0 &&
-                    techLevelThingCategory.childCategories.Count <= 0)
-                {
-                    continue;
-                }
-
-                thingCategoryDef.childCategories.Add(techLevelThingCategory);
-                techLevelThingCategory.parent = thingCategoryDef;
-            }
-            else
-            {
-                switch (nextSortOption)
-                {
-                    case NextSortOption.Mod:
-                        SortByMod(weaponToCheck, techLevelThingCategory);
-                        break;
-                    case NextSortOption.Tech:
-                        SortByTech(weaponToCheck, techLevelThingCategory);
-                        break;
-                }
-
-                if (techLevelThingCategory.childCategories.Count <= 0)
-                {
-                    continue;
-                }
-
-                thingCategoryDef.childCategories.Add(techLevelThingCategory);
-                techLevelThingCategory.parent = thingCategoryDef;
-            }
-
-            thingCategoryDef.ResolveReferences();
-        }
-    }
-
-    private static void SortByMod(HashSet<ThingDef> weaponToSort, ThingCategoryDef thingCategoryDef,
-        NextSortOption nextSortOption = NextSortOption.None)
-    {
-        Log.Message($"Sorting by mod, then by {nextSortOption}");
-        foreach (var modData in from modData in ModLister.AllInstalledMods where modData.Active select modData)
-        {
-            var weaponToCheck =
-                (from weaponDef in weaponToSort
-                    where weaponDef.modContentPack is { PackageId: { } } &&
-                          weaponDef.modContentPack.PackageId == modData.PackageId
-                    select weaponDef).ToHashSet();
-            var modDefName = $"{thingCategoryDef.defName}_{modData.PackageId}";
-            if (thingCategoryDef == ThingCategoryDefOf.Weapons)
-            {
-                modDefName = $"WS_{modData.PackageId}";
-            }
-
-            var modThingCategory = DefDatabase<ThingCategoryDef>.GetNamedSilentFail(modDefName);
-            if (modThingCategory == null)
-            {
-                modThingCategory = new ThingCategoryDef { defName = modDefName, label = modData.Name };
-                DefGenerator.AddImpliedDef(modThingCategory);
-            }
-
-            if (nextSortOption == NextSortOption.None)
-            {
-                AddweaponToCategory(weaponToCheck, modThingCategory);
-                if (modThingCategory.childThingDefs.Count <= 0 && modThingCategory.childCategories.Count <= 0)
-                {
-                    continue;
-                }
-
-                thingCategoryDef.childCategories.Add(modThingCategory);
-                modThingCategory.parent = thingCategoryDef;
-            }
-            else
-            {
-                switch (nextSortOption)
-                {
-                    case NextSortOption.Tech:
-                        SortByTech(weaponToCheck, modThingCategory);
-                        break;
-                    case NextSortOption.Mod:
-                        SortByMod(weaponToCheck, modThingCategory);
-                        break;
-                }
-
-                if (modThingCategory.childCategories.Count <= 0)
-                {
-                    continue;
-                }
-
-                thingCategoryDef.childCategories.Add(modThingCategory);
-                modThingCategory.parent = thingCategoryDef;
-            }
-
-            thingCategoryDef.ResolveReferences();
-        }
-
         var missingweaponToCheck =
             (from weaponDef in weaponToSort
                 where weaponDef.weaponTags == null || !weaponDef.weaponTags.Any()
@@ -467,6 +352,122 @@ public class WeaponsSorter
 
             thingCategoryDef.childCategories.Add(missingTagThingCategory);
             missingTagThingCategory.parent = thingCategoryDef;
+        }
+    }
+
+    private static void SortByMod(HashSet<ThingDef> weaponToSort, ThingCategoryDef thingCategoryDef,
+        NextSortOption nextSortOption = NextSortOption.None)
+    {
+        Log.Message($"Sorting by mod, then by {nextSortOption}");
+        foreach (var modData in from modData in ModLister.AllInstalledMods where modData.Active select modData)
+        {
+            var weaponToCheck =
+                (from weaponDef in weaponToSort
+                    where weaponDef.modContentPack is { PackageId: { } } &&
+                          weaponDef.modContentPack.PackageId == modData.PackageId
+                    select weaponDef).ToHashSet();
+            var modDefName = $"{thingCategoryDef.defName}_{modData.PackageId}";
+            if (thingCategoryDef == ThingCategoryDefOf.Weapons)
+            {
+                modDefName = $"WS_{modData.PackageId}";
+            }
+
+            var modThingCategory = DefDatabase<ThingCategoryDef>.GetNamedSilentFail(modDefName);
+            if (modThingCategory == null)
+            {
+                modThingCategory = new ThingCategoryDef { defName = modDefName, label = modData.Name };
+                DefGenerator.AddImpliedDef(modThingCategory);
+            }
+
+            if (nextSortOption == NextSortOption.None)
+            {
+                AddweaponToCategory(weaponToCheck, modThingCategory);
+                if (modThingCategory.childThingDefs.Count <= 0 && modThingCategory.childCategories.Count <= 0)
+                {
+                    continue;
+                }
+
+                thingCategoryDef.childCategories.Add(modThingCategory);
+                modThingCategory.parent = thingCategoryDef;
+            }
+            else
+            {
+                switch (nextSortOption)
+                {
+                    case NextSortOption.Tech:
+                        SortByTech(weaponToCheck, modThingCategory);
+                        break;
+                    case NextSortOption.Tag:
+                        SortByTag(weaponToCheck, modThingCategory);
+                        break;
+                }
+
+                if (modThingCategory.childCategories.Count <= 0)
+                {
+                    continue;
+                }
+
+                thingCategoryDef.childCategories.Add(modThingCategory);
+                modThingCategory.parent = thingCategoryDef;
+            }
+
+            thingCategoryDef.ResolveReferences();
+        }
+
+        var missingweaponToCheck =
+            (from weaponDef in weaponToSort
+                where weaponDef.modContentPack == null || weaponDef.modContentPack.PackageId == null
+                select weaponDef).ToHashSet();
+        if (missingweaponToCheck.Count == 0)
+        {
+            return;
+        }
+
+        var missingModDefName = $"{thingCategoryDef.defName}_Mod_None";
+        if (thingCategoryDef == ThingCategoryDefOf.Weapons)
+        {
+            missingModDefName = "WS_Mod_None";
+        }
+
+        var missingModThingCategory = DefDatabase<ThingCategoryDef>.GetNamedSilentFail(missingModDefName);
+        if (missingModThingCategory == null)
+        {
+            missingModThingCategory = new ThingCategoryDef
+                { defName = missingModDefName, label = "WS_None".Translate() };
+            DefGenerator.AddImpliedDef(missingModThingCategory);
+        }
+
+        if (nextSortOption == NextSortOption.None)
+        {
+            AddweaponToCategory(missingweaponToCheck, missingModThingCategory);
+            if (missingModThingCategory.childThingDefs.Count <= 0 &&
+                missingModThingCategory.childCategories.Count <= 0)
+            {
+                return;
+            }
+
+            thingCategoryDef.childCategories.Add(missingModThingCategory);
+            missingModThingCategory.parent = thingCategoryDef;
+        }
+        else
+        {
+            switch (nextSortOption)
+            {
+                case NextSortOption.Tech:
+                    SortByTech(missingweaponToCheck, missingModThingCategory);
+                    break;
+                case NextSortOption.Tag:
+                    SortByTag(missingweaponToCheck, missingModThingCategory);
+                    break;
+            }
+
+            if (missingModThingCategory.childCategories.Count <= 0)
+            {
+                return;
+            }
+
+            thingCategoryDef.childCategories.Add(missingModThingCategory);
+            missingModThingCategory.parent = thingCategoryDef;
         }
     }
 
