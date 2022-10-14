@@ -353,6 +353,8 @@ public class WeaponsSorter
             thingCategoryDef.childCategories.Add(missingTagThingCategory);
             missingTagThingCategory.parent = thingCategoryDef;
         }
+
+        thingCategoryDef.ResolveReferences();
     }
 
     private static void SortByMod(HashSet<ThingDef> weaponToSort, ThingCategoryDef thingCategoryDef,
@@ -469,6 +471,8 @@ public class WeaponsSorter
             thingCategoryDef.childCategories.Add(missingModThingCategory);
             missingModThingCategory.parent = thingCategoryDef;
         }
+
+        thingCategoryDef.ResolveReferences();
     }
 
 

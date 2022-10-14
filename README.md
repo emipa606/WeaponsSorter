@@ -10,6 +10,7 @@
 
 - Option to sort by tech-level
 - Option to sort by mod-name
+- Option to sort by weapon-tag
 - Option for grenades subcategory
 - Option for ranged subcategory
 - Option for melee subcategory
