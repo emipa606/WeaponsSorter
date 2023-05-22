@@ -9,7 +9,7 @@ namespace WeaponsSorter;
 [StaticConstructorOnStartup]
 public class WeaponsSorter
 {
-    private static readonly ThingCategoryDef ceAmmoCategoryDef;
+    public static readonly ThingCategoryDef ceAmmoCategoryDef;
     private static readonly IEnumerable<ThingCategoryDef> categoriesToIgnore = new List<ThingCategoryDef>();
     private static Dictionary<string, List<ThingDef>> WeaponTagDictionary;
 
@@ -365,7 +365,7 @@ public class WeaponsSorter
         {
             var weaponToCheck =
                 (from weaponDef in weaponToSort
-                    where weaponDef.modContentPack is { PackageId: { } } &&
+                    where weaponDef.modContentPack is { PackageId: not null } &&
                           weaponDef.modContentPack.PackageId == modData.PackageId
                     select weaponDef).ToHashSet();
             var modDefName = $"{thingCategoryDef.defName}_{modData.PackageId}";
@@ -494,6 +494,7 @@ public class WeaponsSorter
 
         grenadeThingCategory.childCategories.Clear();
         grenadeThingCategory.childThingDefs.Clear();
+
         var bladeLinkDefName = $"{thingCategoryDef.defName}_BladeLink";
         var bladeLinkThingCategory = DefDatabase<ThingCategoryDef>.GetNamedSilentFail(bladeLinkDefName);
         if (bladeLinkThingCategory == null)
@@ -505,6 +506,7 @@ public class WeaponsSorter
 
         bladeLinkThingCategory.childCategories.Clear();
         bladeLinkThingCategory.childThingDefs.Clear();
+
         var rangedDefName = $"{thingCategoryDef.defName}_Ranged";
         var rangedThingCategory = DefDatabase<ThingCategoryDef>.GetNamedSilentFail(rangedDefName);
         if (rangedThingCategory == null)
@@ -515,6 +517,7 @@ public class WeaponsSorter
 
         rangedThingCategory.childCategories.Clear();
         rangedThingCategory.childThingDefs.Clear();
+
         var meleeDefName = $"{thingCategoryDef.defName}_Melee";
         var meleeThingCategory = DefDatabase<ThingCategoryDef>.GetNamedSilentFail(meleeDefName);
         if (meleeThingCategory == null)
@@ -525,17 +528,36 @@ public class WeaponsSorter
 
         meleeThingCategory.childCategories.Clear();
         meleeThingCategory.childThingDefs.Clear();
+
+
+        var oneHandedDefName = $"{thingCategoryDef.defName}_OneHanded";
+        var oneHandedThingCategory = DefDatabase<ThingCategoryDef>.GetNamedSilentFail(oneHandedDefName);
+        if (oneHandedThingCategory == null)
+        {
+            oneHandedThingCategory = new ThingCategoryDef
+                { defName = oneHandedDefName, label = "WS_OneHanded".Translate() };
+            DefGenerator.AddImpliedDef(oneHandedThingCategory);
+        }
+
+        oneHandedThingCategory.childCategories.Clear();
+        oneHandedThingCategory.childThingDefs.Clear();
+
         thingCategoryDef.childCategories.Clear();
         thingCategoryDef.childThingDefs.Clear();
         foreach (var weapon in weaponToSort)
         {
+            var somethingChosen = false;
+            var isGrenade = false;
+
             if (WeaponsSorterMod.instance.Settings.GrenadesSeparate)
             {
-                if (weapon.GetCompProperties<CompProperties_Explosive>() != null && weapon.tools == null)
+                if (weapon.GetCompProperties<CompProperties_Explosive>() != null && weapon.tools == null ||
+                    weapon.weaponTags?.Any(tag => tag.ToLower().Contains("grenade")) == true)
                 {
                     weapon.thingCategories.Add(grenadeThingCategory);
                     grenadeThingCategory.childThingDefs.Add(weapon);
-                    continue;
+                    somethingChosen = true;
+                    isGrenade = true;
                 }
             }
 
@@ -545,17 +567,17 @@ public class WeaponsSorter
                 {
                     weapon.thingCategories.Add(bladeLinkThingCategory);
                     bladeLinkThingCategory.childThingDefs.Add(weapon);
-                    continue;
+                    somethingChosen = true;
                 }
             }
 
             if (WeaponsSorterMod.instance.Settings.RangedSeparate)
             {
-                if (weapon.IsRangedWeapon)
+                if (weapon.IsRangedWeapon && !isGrenade)
                 {
                     weapon.thingCategories.Add(rangedThingCategory);
                     rangedThingCategory.childThingDefs.Add(weapon);
-                    continue;
+                    somethingChosen = true;
                 }
             }
 
@@ -565,8 +587,23 @@ public class WeaponsSorter
                 {
                     weapon.thingCategories.Add(meleeThingCategory);
                     meleeThingCategory.childThingDefs.Add(weapon);
-                    continue;
+                    somethingChosen = true;
                 }
+            }
+
+            if (WeaponsSorterMod.instance.Settings.OneHandedSeparate)
+            {
+                if (weapon.weaponTags?.Contains("CE_OneHandedWeapon") == true)
+                {
+                    weapon.thingCategories.Add(oneHandedThingCategory);
+                    oneHandedThingCategory.childThingDefs.Add(weapon);
+                    somethingChosen = true;
+                }
+            }
+
+            if (somethingChosen)
+            {
+                continue;
             }
 
             weapon.thingCategories.Add(thingCategoryDef);
@@ -595,15 +632,20 @@ public class WeaponsSorter
             rangedThingCategory.ResolveReferences();
         }
 
-        if (!WeaponsSorterMod.instance.Settings.MeleeSeparate || meleeThingCategory.childThingDefs.Count <= 0)
+        if (WeaponsSorterMod.instance.Settings.MeleeSeparate && meleeThingCategory.childThingDefs.Count > 0)
         {
-            thingCategoryDef.ResolveReferences();
-            return;
+            meleeThingCategory.parent = thingCategoryDef;
+            thingCategoryDef.childCategories.Add(meleeThingCategory);
+            meleeThingCategory.ResolveReferences();
         }
 
-        meleeThingCategory.parent = thingCategoryDef;
-        thingCategoryDef.childCategories.Add(meleeThingCategory);
-        meleeThingCategory.ResolveReferences();
+        if (WeaponsSorterMod.instance.Settings.OneHandedSeparate && oneHandedThingCategory.childThingDefs.Count > 0)
+        {
+            oneHandedThingCategory.parent = thingCategoryDef;
+            thingCategoryDef.childCategories.Add(oneHandedThingCategory);
+            oneHandedThingCategory.ResolveReferences();
+        }
+
         thingCategoryDef.ResolveReferences();
     }
 

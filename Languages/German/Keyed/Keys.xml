@@ -27,4 +27,7 @@
   <WS_Melee>Nahkampf</WS_Melee>
   <Undefined>Unbestimmt</Undefined>
   <WS_CurrentModVersion>Installierte Mod-Version: {0}</WS_CurrentModVersion>
+  <WS_SettingOneHandedCategories>Unterkategorie Einhändig</WS_SettingOneHandedCategories>
+  <WS_SettingOneHandedCategoriesDescription>Sollten Einhandwaffen, die mit Schilden verwendet werden können, in eine Unterkategorie eingeordnet werden?</WS_SettingOneHandedCategoriesDescription>
+  <WS_OneHanded>Einhändig</WS_OneHanded>
 </LanguageData>

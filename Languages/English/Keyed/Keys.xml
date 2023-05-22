@@ -15,6 +15,8 @@
   <WS_SettingRangedCategoriesDescription>Should ranged weapons be sorted in a sub-category?</WS_SettingRangedCategoriesDescription>
   <WS_SettingMeleeCategories>Melee sub-categories</WS_SettingMeleeCategories>
   <WS_SettingMeleeCategoriesDescription>Should melee weapons be sorted in a sub-category?</WS_SettingMeleeCategoriesDescription>
+  <WS_SettingOneHandedCategories>One-handed sub-category</WS_SettingOneHandedCategories>
+  <WS_SettingOneHandedCategoriesDescription>Should one-handed weapons usable with shields be sorted in a sub-category?</WS_SettingOneHandedCategoriesDescription>
   <WS_SettingSortOrder>Category sort-order</WS_SettingSortOrder>
   <WS_SettingTech>Tech</WS_SettingTech>
   <WS_SettingMod>Mod</WS_SettingMod>
@@ -24,6 +26,7 @@
   <WS_BladeLink>Persona</WS_BladeLink>
   <WS_Ranged>Ranged</WS_Ranged>
   <WS_Melee>Melee</WS_Melee>
+  <WS_OneHanded>One-handed</WS_OneHanded>
   <Undefined>Undefined</Undefined>
   <WS_CurrentModVersion>Installed mod-version: {0}</WS_CurrentModVersion>
 </LanguageData>

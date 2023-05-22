@@ -18,7 +18,7 @@ internal class WeaponsSorterMod : Mod
     /// <summary>
     ///     The private settings
     /// </summary>
-    private WeaponsSorterSettings settings;
+    public readonly WeaponsSorterSettings Settings;
 
     /// <summary>
     ///     Cunstructor
@@ -28,24 +28,8 @@ internal class WeaponsSorterMod : Mod
     {
         instance = this;
         currentVersion =
-            VersionFromManifest.GetVersionFromModMetaData(ModLister.GetActiveModWithIdentifier("Mlie.WeaponsSorter"));
-    }
-
-    /// <summary>
-    ///     The instance-settings for the mod
-    /// </summary>
-    internal WeaponsSorterSettings Settings
-    {
-        get
-        {
-            if (settings == null)
-            {
-                settings = GetSettings<WeaponsSorterSettings>();
-            }
-
-            return settings;
-        }
-        set => settings = value;
+            VersionFromManifest.GetVersionFromModMetaData(content.ModMetaData);
+        Settings = GetSettings<WeaponsSorterSettings>();
     }
 
     /// <summary>
@@ -153,6 +137,13 @@ internal class WeaponsSorterMod : Mod
             "WS_SettingRangedCategoriesDescription".Translate());
         listing_Standard.CheckboxLabeled("WS_SettingMeleeCategories".Translate(), ref Settings.MeleeSeparate,
             "WS_SettingMeleeCategoriesDescription".Translate());
+        if (WeaponsSorter.ceAmmoCategoryDef != null)
+        {
+            listing_Standard.CheckboxLabeled("WS_SettingOneHandedCategories".Translate(),
+                ref Settings.OneHandedSeparate,
+                "WS_SettingOneHandedCategoriesDescription".Translate());
+        }
+
         if (currentVersion != null)
         {
             listing_Standard.Gap();

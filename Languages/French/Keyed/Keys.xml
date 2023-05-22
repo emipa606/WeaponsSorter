@@ -27,4 +27,7 @@
   <WS_SettingTag>Étiquette</WS_SettingTag>
   <Undefined>Indéfini</Undefined>
   <WS_CurrentModVersion>Version installée du module : {0}</WS_CurrentModVersion>
+  <WS_SettingOneHandedCategories>Sous-catégorie des manchots</WS_SettingOneHandedCategories>
+  <WS_SettingOneHandedCategoriesDescription>Les armes à une main utilisables avec des boucliers devraient-elles être classées dans une sous-catégorie ?</WS_SettingOneHandedCategoriesDescription>
+  <WS_OneHanded>D'une seule main</WS_OneHanded>
 </LanguageData>

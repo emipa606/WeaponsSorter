@@ -1,5 +1,9 @@
 # Changelog for WeaponsSorter
 
+1.4.4 - Can now filter one-handed weapons when CE is active to find suitable weapons for shields. Also sorts ce-grenades into the grenade category.
+Used DeepL to update translations for ChineseSimplified, French, German, Russian
+
+
 1.4.3 - Updated russian translation by Reiquard.
 Used DeepL to update translations for German
 
