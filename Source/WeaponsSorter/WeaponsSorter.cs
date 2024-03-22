@@ -40,7 +40,7 @@ public class WeaponsSorter
             {
                 if (!WeaponTagDictionary.ContainsKey(weaponTag))
                 {
-                    WeaponTagDictionary[weaponTag] = new List<ThingDef> { weapon };
+                    WeaponTagDictionary[weaponTag] = [weapon];
                     continue;
                 }
 
@@ -68,7 +68,7 @@ public class WeaponsSorter
             category.childThingDefs.Clear();
             if (category == ThingCategoryDefOf.Weapons && ceAmmoCategoryDef != null)
             {
-                category.childCategories = new List<ThingCategoryDef> { ceAmmoCategoryDef };
+                category.childCategories = [ceAmmoCategoryDef];
             }
             else
             {
