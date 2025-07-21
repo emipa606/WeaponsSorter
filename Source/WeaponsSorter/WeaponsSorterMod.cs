@@ -11,7 +11,7 @@ internal class WeaponsSorterMod : Mod
     /// <summary>
     ///     The instance of the settings to be read by the mod
     /// </summary>
-    public static WeaponsSorterMod instance;
+    public static WeaponsSorterMod Instance;
 
     private static string currentVersion;
 
@@ -26,7 +26,7 @@ internal class WeaponsSorterMod : Mod
     /// <param name="content"></param>
     public WeaponsSorterMod(ModContentPack content) : base(content)
     {
-        instance = this;
+        Instance = this;
         currentVersion =
             VersionFromManifest.GetVersionFromModMetaData(content.ModMetaData);
         Settings = GetSettings<WeaponsSorterSettings>();
@@ -48,8 +48,8 @@ internal class WeaponsSorterMod : Mod
     /// <param name="rect"></param>
     public override void DoSettingsWindowContents(Rect rect)
     {
-        var listing_Standard = new Listing_Standard();
-        listing_Standard.Begin(rect);
+        var listingStandard = new Listing_Standard();
+        listingStandard.Begin(rect);
         GUI.contentColor = Color.yellow;
         //listing_Standard.Label("WS_SettingDeselectOptions".Translate());
         GUI.contentColor = Color.white;
@@ -73,18 +73,18 @@ internal class WeaponsSorterMod : Mod
                 switch (j)
                 {
                     case 0:
-                        listing_Standard.CheckboxLabeled("WS_SettingTechCategories".Translate(),
+                        listingStandard.CheckboxLabeled("WS_SettingTechCategories".Translate(),
                             ref Settings.SortByTech,
                             "WS_SettingTechCategoriesDescription".Translate());
                         categories[i] = "WS_SettingTech".Translate();
                         break;
                     case 1:
-                        listing_Standard.CheckboxLabeled("WS_SettingModCategories".Translate(), ref Settings.SortByMod,
+                        listingStandard.CheckboxLabeled("WS_SettingModCategories".Translate(), ref Settings.SortByMod,
                             "WS_SettingModCategoriesDescription".Translate());
                         categories[i] = "WS_SettingMod".Translate();
                         break;
                     case 2:
-                        listing_Standard.CheckboxLabeled("WS_SettingTagCategories".Translate(), ref Settings.SortByTag,
+                        listingStandard.CheckboxLabeled("WS_SettingTagCategories".Translate(), ref Settings.SortByTag,
                             "WS_SettingTagCategoriesDescription".Translate());
                         categories[i] = "WS_SettingTag".Translate();
                         break;
@@ -93,15 +93,15 @@ internal class WeaponsSorterMod : Mod
                 i++;
             }
 
-            listing_Standard.Gap();
-            listing_Standard.Label("WS_SettingSortOrder".Translate());
-            if (listing_Standard.RadioButton($"{categories[0]} / {categories[1]}",
+            listingStandard.Gap();
+            listingStandard.Label("WS_SettingSortOrder".Translate());
+            if (listingStandard.RadioButton($"{categories[0]} / {categories[1]}",
                     Settings.SortSetting == 0))
             {
                 Settings.SortSetting = 0;
             }
 
-            if (listing_Standard.RadioButton($"{categories[1]} / {categories[0]}",
+            if (listingStandard.RadioButton($"{categories[1]} / {categories[0]}",
                     Settings.SortSetting == 1))
             {
                 Settings.SortSetting = 1;
@@ -109,50 +109,50 @@ internal class WeaponsSorterMod : Mod
         }
         else
         {
-            listing_Standard.CheckboxLabeled("WS_SettingTechCategories".Translate(), ref Settings.SortByTech,
+            listingStandard.CheckboxLabeled("WS_SettingTechCategories".Translate(), ref Settings.SortByTech,
                 "WS_SettingTechCategoriesDescription".Translate());
-            listing_Standard.CheckboxLabeled("WS_SettingModCategories".Translate(), ref Settings.SortByMod,
+            listingStandard.CheckboxLabeled("WS_SettingModCategories".Translate(), ref Settings.SortByMod,
                 "WS_SettingModCategoriesDescription".Translate());
-            listing_Standard.CheckboxLabeled("WS_SettingTagCategories".Translate(), ref Settings.SortByTag,
+            listingStandard.CheckboxLabeled("WS_SettingTagCategories".Translate(), ref Settings.SortByTag,
                 "WS_SettingTagCategoriesDescription".Translate());
 
             GUI.contentColor = Color.grey;
-            listing_Standard.Gap();
-            listing_Standard.Label("WS_SettingSortOrder".Translate());
-            listing_Standard.Label("/");
-            listing_Standard.Label("/");
+            listingStandard.Gap();
+            listingStandard.Label("WS_SettingSortOrder".Translate());
+            listingStandard.Label("/");
+            listingStandard.Label("/");
             GUI.contentColor = Color.white;
         }
 
-        listing_Standard.GapLine();
-        listing_Standard.CheckboxLabeled("WS_SettingGrenadesCategories".Translate(), ref Settings.GrenadesSeparate,
+        listingStandard.GapLine();
+        listingStandard.CheckboxLabeled("WS_SettingGrenadesCategories".Translate(), ref Settings.GrenadesSeparate,
             "WS_SettingGrenadesCategoriesDescription".Translate());
         if (ModLister.RoyaltyInstalled)
         {
-            listing_Standard.CheckboxLabeled("WS_SettingBladeLinkCategories".Translate(),
+            listingStandard.CheckboxLabeled("WS_SettingBladeLinkCategories".Translate(),
                 ref Settings.BladeLinkSeparate, "WS_SettingBladeLinkCategoriesDescription".Translate());
         }
 
-        listing_Standard.CheckboxLabeled("WS_SettingRangedCategories".Translate(), ref Settings.RangedSeparate,
+        listingStandard.CheckboxLabeled("WS_SettingRangedCategories".Translate(), ref Settings.RangedSeparate,
             "WS_SettingRangedCategoriesDescription".Translate());
-        listing_Standard.CheckboxLabeled("WS_SettingMeleeCategories".Translate(), ref Settings.MeleeSeparate,
+        listingStandard.CheckboxLabeled("WS_SettingMeleeCategories".Translate(), ref Settings.MeleeSeparate,
             "WS_SettingMeleeCategoriesDescription".Translate());
-        if (WeaponsSorter.ceAmmoCategoryDef != null)
+        if (WeaponsSorter.CeAmmoCategoryDef != null)
         {
-            listing_Standard.CheckboxLabeled("WS_SettingOneHandedCategories".Translate(),
+            listingStandard.CheckboxLabeled("WS_SettingOneHandedCategories".Translate(),
                 ref Settings.OneHandedSeparate,
                 "WS_SettingOneHandedCategoriesDescription".Translate());
         }
 
         if (currentVersion != null)
         {
-            listing_Standard.Gap();
+            listingStandard.Gap();
             GUI.contentColor = Color.gray;
-            listing_Standard.Label("WS_CurrentModVersion".Translate(currentVersion));
+            listingStandard.Label("WS_CurrentModVersion".Translate(currentVersion));
             GUI.contentColor = Color.white;
         }
 
-        listing_Standard.End();
+        listingStandard.End();
 
         Settings.Write();
     }
