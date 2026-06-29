@@ -15,6 +15,8 @@ internal class WeaponsSorterMod : Mod
 
     private static string currentVersion;
 
+    public static bool CeLoaded;
+
     /// <summary>
     ///     The private settings
     /// </summary>
@@ -27,6 +29,7 @@ internal class WeaponsSorterMod : Mod
     public WeaponsSorterMod(ModContentPack content) : base(content)
     {
         Instance = this;
+        CeLoaded = ModLister.GetActiveModWithIdentifier("CETeam.CombatExtended", true) != null;
         currentVersion =
             VersionFromManifest.GetVersionFromModMetaData(content.ModMetaData);
         Settings = GetSettings<WeaponsSorterSettings>();
@@ -51,14 +54,14 @@ internal class WeaponsSorterMod : Mod
         var listingStandard = new Listing_Standard();
         listingStandard.Begin(rect);
         GUI.contentColor = Color.yellow;
-        //listing_Standard.Label("WS_SettingDeselectOptions".Translate());
         GUI.contentColor = Color.white;
-        if (!(Settings.SortByTech || Settings.SortByMod || Settings.SortByTag))
+        if (!(Settings.SortByTech || Settings.SortByMod || Settings.SortByTag || Settings.SortByAmmo))
         {
             Settings.SortByTech = true;
         }
 
-        var enabledSettings = new List<bool> { Settings.SortByTech, Settings.SortByMod, Settings.SortByTag };
+        var enabledSettings = new List<bool>
+            { Settings.SortByTech, Settings.SortByMod, Settings.SortByTag, Settings.SortByAmmo };
         if (enabledSettings.Count(b => b.Equals(true)) == 2)
         {
             var categories = new string[2];
@@ -88,6 +91,14 @@ internal class WeaponsSorterMod : Mod
                             "WS_SettingTagCategoriesDescription".Translate());
                         categories[i] = "WS_SettingTag".Translate();
                         break;
+                    case 3 when CeLoaded:
+                        listingStandard.CheckboxLabeled("WS_SettingAmmoCategories".Translate(), ref Settings.SortByAmmo,
+                            "WS_SettingAmmoCategoriesDescription".Translate());
+                        categories[i] = "WS_SettingAmmo".Translate();
+                        break;
+                    default:
+                        Settings.SortByAmmo = false;
+                        break;
                 }
 
                 i++;
@@ -115,6 +126,11 @@ internal class WeaponsSorterMod : Mod
                 "WS_SettingModCategoriesDescription".Translate());
             listingStandard.CheckboxLabeled("WS_SettingTagCategories".Translate(), ref Settings.SortByTag,
                 "WS_SettingTagCategoriesDescription".Translate());
+            if (CeLoaded)
+            {
+                listingStandard.CheckboxLabeled("WS_SettingAmmoCategories".Translate(), ref Settings.SortByAmmo,
+                    "WS_SettingAmmoCategoriesDescription".Translate());
+            }
 
             GUI.contentColor = Color.grey;
             listingStandard.Gap();

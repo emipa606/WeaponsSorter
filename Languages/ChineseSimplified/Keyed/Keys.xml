@@ -30,4 +30,7 @@
   <WS_SettingOneHandedCategories>单手亚类</WS_SettingOneHandedCategories>
   <WS_SettingOneHandedCategoriesDescription>可使用盾牌的单手武器是否应在一个子类别中进行分类？</WS_SettingOneHandedCategoriesDescription>
   <WS_OneHanded>单手操作</WS_OneHanded>
+  <WS_SettingAmmoCategories>弹药类别</WS_SettingAmmoCategories>
+  <WS_SettingAmmoCategoriesDescription>是否应根据武器使用的弹药类型对武器进行分类？</WS_SettingAmmoCategoriesDescription>
+  <WS_SettingAmmo>弹药</WS_SettingAmmo>
 </LanguageData>

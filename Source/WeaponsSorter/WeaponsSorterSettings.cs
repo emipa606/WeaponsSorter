@@ -12,6 +12,7 @@ internal class WeaponsSorterSettings : ModSettings
     public bool MeleeSeparate;
     public bool OneHandedSeparate;
     public bool RangedSeparate;
+    public bool SortByAmmo;
     public bool SortByMod;
     public bool SortByTag;
     public bool SortByTech = true;
@@ -26,6 +27,7 @@ internal class WeaponsSorterSettings : ModSettings
         Scribe_Values.Look(ref SortByTech, "SortByTech", true);
         Scribe_Values.Look(ref SortByMod, "SortByMod");
         Scribe_Values.Look(ref SortByTag, "SortByTag");
+        Scribe_Values.Look(ref SortByAmmo, "SortByAmmo");
         Scribe_Values.Look(ref SortSetting, "SortSetting");
         Scribe_Values.Look(ref RangedSeparate, "RangedSeparate");
         Scribe_Values.Look(ref MeleeSeparate, "MeleeSeparate");

@@ -30,4 +30,7 @@
   <WS_SettingOneHandedCategories>Sous-catégorie des manchots</WS_SettingOneHandedCategories>
   <WS_SettingOneHandedCategoriesDescription>Les armes à une main utilisables avec des boucliers devraient-elles être classées dans une sous-catégorie ?</WS_SettingOneHandedCategoriesDescription>
   <WS_OneHanded>D'une seule main</WS_OneHanded>
+  <WS_SettingAmmoCategories>Catégories de munitions</WS_SettingAmmoCategories>
+  <WS_SettingAmmoCategoriesDescription>Faut-il trier les armes en fonction des munitions qu'elles utilisent ?</WS_SettingAmmoCategoriesDescription>
+  <WS_SettingAmmo>Munitions</WS_SettingAmmo>
 </LanguageData>

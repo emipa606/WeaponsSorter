@@ -30,4 +30,7 @@
   <WS_SettingOneHandedCategories>Unterkategorie Einhändig</WS_SettingOneHandedCategories>
   <WS_SettingOneHandedCategoriesDescription>Sollten Einhandwaffen, die mit Schilden verwendet werden können, in eine Unterkategorie eingeordnet werden?</WS_SettingOneHandedCategoriesDescription>
   <WS_OneHanded>Einhändig</WS_OneHanded>
+  <WS_SettingAmmoCategories>Munitionstypen</WS_SettingAmmoCategories>
+  <WS_SettingAmmoCategoriesDescription>Sollen Waffen nach der von ihnen verwendeten Munition sortiert werden?</WS_SettingAmmoCategoriesDescription>
+  <WS_SettingAmmo>Munition</WS_SettingAmmo>
 </LanguageData>

@@ -30,4 +30,7 @@
   <WS_SettingOneHandedCategories>Однорукая подкатегория</WS_SettingOneHandedCategories>
   <WS_SettingOneHandedCategoriesDescription>Должно ли одноручное оружие, используемое со щитами, быть отсортировано в подкатегорию?</WS_SettingOneHandedCategoriesDescription>
   <WS_OneHanded>Одной рукой</WS_OneHanded>
+  <WS_SettingAmmoCategories>Категории боеприпасов</WS_SettingAmmoCategories>
+  <WS_SettingAmmoCategoriesDescription>Следует ли сортировать оружие по типу используемых патронов?</WS_SettingAmmoCategoriesDescription>
+  <WS_SettingAmmo>Патроны</WS_SettingAmmo>
 </LanguageData>

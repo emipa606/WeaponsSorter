@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using RimWorld;
 using Verse;
 
@@ -15,11 +16,23 @@ public class WeaponsSorter
 
     static WeaponsSorter()
     {
-        CeAmmoCategoryDef = DefDatabase<ThingCategoryDef>.GetNamedSilentFail("Ammo");
-        if (CeAmmoCategoryDef != null)
+        if (WeaponsSorterMod.CeLoaded)
         {
-            categoriesToIgnore = CeAmmoCategoryDef.ThisAndChildCategoryDefs;
-            Log.Message($"[WeaponsSorter]: CE is loaded, ignoring {categoriesToIgnore.Count()} thingCategories");
+            CeAmmoCategoryDef = DefDatabase<ThingCategoryDef>.GetNamedSilentFail("Ammo");
+            if (CeAmmoCategoryDef != null)
+            {
+                categoriesToIgnore = CeAmmoCategoryDef.ThisAndChildCategoryDefs;
+                Log.Message($"[WeaponsSorter]: CE is loaded, ignoring {categoriesToIgnore.Count()} thingCategories");
+            }
+        }
+        else
+        {
+            WeaponsSorterMod.Instance.Settings.SortByAmmo = false;
+            if (!WeaponsSorterMod.Instance.Settings.SortByMod && !WeaponsSorterMod.Instance.Settings.SortByTag &&
+                !WeaponsSorterMod.Instance.Settings.SortByTech)
+            {
+                WeaponsSorterMod.Instance.Settings.SortByTech = true;
+            }
         }
 
         updateTags();
@@ -103,36 +116,31 @@ public class WeaponsSorter
             weapon.thingCategories.Clear();
         }
 
-        var allSortOptions = new List<bool>
+        var enabledSortOptions = new List<NextSortOption>();
+        if (WeaponsSorterMod.Instance.Settings.SortByTech)
         {
-            WeaponsSorterMod.Instance.Settings.SortByTech, WeaponsSorterMod.Instance.Settings.SortByMod,
-            WeaponsSorterMod.Instance.Settings.SortByTag
-        };
-        if (allSortOptions.Count(b => b.Equals(true)) == 2)
+            enabledSortOptions.Add(NextSortOption.Tech);
+        }
+
+        if (WeaponsSorterMod.Instance.Settings.SortByMod)
         {
-            var firstOption = NextSortOption.None;
-            var secondOption = NextSortOption.None;
-            for (var j = 0; j < allSortOptions.Count; j++)
-            {
-                if (!allSortOptions[j])
-                {
-                    continue;
-                }
+            enabledSortOptions.Add(NextSortOption.Mod);
+        }
 
-                firstOption = (NextSortOption)j;
-                break;
-            }
+        if (WeaponsSorterMod.Instance.Settings.SortByTag)
+        {
+            enabledSortOptions.Add(NextSortOption.Tag);
+        }
 
-            for (var j = allSortOptions.Count - 1; j > -1; j--)
-            {
-                if (!allSortOptions[j])
-                {
-                    continue;
-                }
+        if (WeaponsSorterMod.Instance.Settings.SortByAmmo)
+        {
+            enabledSortOptions.Add(NextSortOption.Ammo);
+        }
 
-                secondOption = (NextSortOption)j;
-                break;
-            }
+        if (enabledSortOptions.Count == 2)
+        {
+            var firstOption = enabledSortOptions[0];
+            var secondOption = enabledSortOptions[1];
 
             if (WeaponsSorterMod.Instance.Settings.SortSetting == 1)
             {
@@ -149,6 +157,9 @@ public class WeaponsSorter
                     break;
                 case NextSortOption.Tag:
                     sortByTag(weaponsInGame, ThingCategoryDefOf.Weapons, secondOption);
+                    break;
+                case NextSortOption.Ammo:
+                    sortByAmmo(weaponsInGame, ThingCategoryDefOf.Weapons, secondOption);
                     break;
             }
         }
@@ -167,6 +178,11 @@ public class WeaponsSorter
             if (WeaponsSorterMod.Instance.Settings.SortByTag)
             {
                 sortByTag(weaponsInGame, ThingCategoryDefOf.Weapons);
+            }
+
+            if (WeaponsSorterMod.Instance.Settings.SortByAmmo)
+            {
+                sortByAmmo(weaponsInGame, ThingCategoryDefOf.Weapons);
             }
         }
 
@@ -215,6 +231,9 @@ public class WeaponsSorter
                         break;
                     case NextSortOption.Tag:
                         sortByTag(weaponToCheck, techLevelThingCategory);
+                        break;
+                    case NextSortOption.Ammo:
+                        sortByAmmo(weaponToCheck, techLevelThingCategory);
                         break;
                 }
 
@@ -278,6 +297,9 @@ public class WeaponsSorter
                     case NextSortOption.Tech:
                         sortByTech(weaponToCheck, tagThingCategory);
                         break;
+                    case NextSortOption.Ammo:
+                        sortByAmmo(weaponToCheck, tagThingCategory);
+                        break;
                 }
 
                 if (tagThingCategory.childCategories.Count <= 0)
@@ -333,6 +355,9 @@ public class WeaponsSorter
                     break;
                 case NextSortOption.Mod:
                     sortByMod(missingweaponToCheck, missingTagThingCategory);
+                    break;
+                case NextSortOption.Ammo:
+                    sortByAmmo(missingweaponToCheck, missingTagThingCategory);
                     break;
             }
 
@@ -390,6 +415,9 @@ public class WeaponsSorter
                     case NextSortOption.Tag:
                         sortByTag(weaponToCheck, modThingCategory);
                         break;
+                    case NextSortOption.Ammo:
+                        sortByAmmo(weaponToCheck, modThingCategory);
+                        break;
                 }
 
                 if (modThingCategory.childCategories.Count <= 0)
@@ -446,6 +474,9 @@ public class WeaponsSorter
                 case NextSortOption.Tag:
                     sortByTag(missingweaponToCheck, missingModThingCategory);
                     break;
+                case NextSortOption.Ammo:
+                    sortByAmmo(missingweaponToCheck, missingModThingCategory);
+                    break;
             }
 
             if (missingModThingCategory.childCategories.Count <= 0)
@@ -458,6 +489,200 @@ public class WeaponsSorter
         missingModThingCategory.parent = thingCategoryDef;
 
         thingCategoryDef.ResolveReferences();
+    }
+
+    private static void sortByAmmo(HashSet<ThingDef> weaponToSort, ThingCategoryDef thingCategoryDef,
+        NextSortOption nextSortOption = NextSortOption.None)
+    {
+        Log.Message($"[Weapons Sorter]: Sorting by ammo, then by {nextSortOption}");
+        if (!WeaponsSorterMod.CeLoaded)
+        {
+            return;
+        }
+
+        var ammoSetDictionary = new Dictionary<string, HashSet<ThingDef>>();
+        var ammoSetLabels = new Dictionary<string, string>();
+
+        foreach (var weapon in weaponToSort)
+        {
+            if (!tryGetAmmoSetData(weapon, out var ammoSetDefName, out var ammoSetLabel))
+            {
+                continue;
+            }
+
+            if (!ammoSetDictionary.TryGetValue(ammoSetDefName, out var weaponsWithAmmoSet))
+            {
+                weaponsWithAmmoSet = [];
+                ammoSetDictionary[ammoSetDefName] = weaponsWithAmmoSet;
+                ammoSetLabels[ammoSetDefName] = ammoSetLabel;
+            }
+
+            weaponsWithAmmoSet.Add(weapon);
+        }
+
+        foreach (var ammoSetDefName in ammoSetDictionary.Keys.OrderBy(key => ammoSetLabels[key]))
+        {
+            var ammoCategoryDefName = $"{thingCategoryDef.defName}_Ammo_{ammoSetDefName}";
+            if (thingCategoryDef == ThingCategoryDefOf.Weapons)
+            {
+                ammoCategoryDefName = $"WS_Ammo_{ammoSetDefName}";
+            }
+
+            var ammoThingCategory = DefDatabase<ThingCategoryDef>.GetNamedSilentFail(ammoCategoryDefName);
+            if (ammoThingCategory == null)
+            {
+                ammoThingCategory = new ThingCategoryDef
+                    { defName = ammoCategoryDefName, label = ammoSetLabels[ammoSetDefName].CapitalizeFirst() };
+                DefGenerator.AddImpliedDef(ammoThingCategory);
+            }
+
+            var weaponsWithAmmoSet = ammoSetDictionary[ammoSetDefName];
+
+            if (nextSortOption == NextSortOption.None)
+            {
+                addWeaponToCategory(weaponsWithAmmoSet, ammoThingCategory);
+                if (ammoThingCategory.childThingDefs.Count <= 0 && ammoThingCategory.childCategories.Count <= 0)
+                {
+                    continue;
+                }
+            }
+            else
+            {
+                switch (nextSortOption)
+                {
+                    case NextSortOption.Tech:
+                        sortByTech(weaponsWithAmmoSet, ammoThingCategory);
+                        break;
+                    case NextSortOption.Mod:
+                        sortByMod(weaponsWithAmmoSet, ammoThingCategory);
+                        break;
+                    case NextSortOption.Tag:
+                        sortByTag(weaponsWithAmmoSet, ammoThingCategory);
+                        break;
+                }
+
+                if (ammoThingCategory.childCategories.Count <= 0)
+                {
+                    continue;
+                }
+            }
+
+            thingCategoryDef.childCategories.Add(ammoThingCategory);
+            ammoThingCategory.parent = thingCategoryDef;
+
+            thingCategoryDef.ResolveReferences();
+        }
+
+        var missingweaponToCheck = weaponToSort.Where(weapon => !tryGetAmmoSetData(weapon, out _, out _)).ToHashSet();
+        if (missingweaponToCheck.Count == 0)
+        {
+            return;
+        }
+
+        var missingAmmoDefName = $"{thingCategoryDef.defName}_Ammo_None";
+        if (thingCategoryDef == ThingCategoryDefOf.Weapons)
+        {
+            missingAmmoDefName = "WS_Ammo_None";
+        }
+
+        var missingAmmoThingCategory = DefDatabase<ThingCategoryDef>.GetNamedSilentFail(missingAmmoDefName);
+        if (missingAmmoThingCategory == null)
+        {
+            missingAmmoThingCategory = new ThingCategoryDef
+                { defName = missingAmmoDefName, label = "WS_None".Translate() };
+            DefGenerator.AddImpliedDef(missingAmmoThingCategory);
+        }
+
+        if (nextSortOption == NextSortOption.None)
+        {
+            addWeaponToCategory(missingweaponToCheck, missingAmmoThingCategory);
+            if (missingAmmoThingCategory.childThingDefs.Count <= 0 &&
+                missingAmmoThingCategory.childCategories.Count <= 0)
+            {
+                return;
+            }
+        }
+        else
+        {
+            switch (nextSortOption)
+            {
+                case NextSortOption.Tech:
+                    sortByTech(missingweaponToCheck, missingAmmoThingCategory);
+                    break;
+                case NextSortOption.Mod:
+                    sortByMod(missingweaponToCheck, missingAmmoThingCategory);
+                    break;
+                case NextSortOption.Tag:
+                    sortByTag(missingweaponToCheck, missingAmmoThingCategory);
+                    break;
+            }
+
+            if (missingAmmoThingCategory.childCategories.Count <= 0)
+            {
+                return;
+            }
+        }
+
+        thingCategoryDef.childCategories.Add(missingAmmoThingCategory);
+        missingAmmoThingCategory.parent = thingCategoryDef;
+
+        thingCategoryDef.ResolveReferences();
+
+        return;
+
+        static bool tryGetAmmoSetData(ThingDef weapon, out string ammoSetDefName, out string ammoSetLabel)
+        {
+            ammoSetDefName = null;
+            ammoSetLabel = null;
+
+            if (weapon.comps == null)
+            {
+                return false;
+            }
+
+            foreach (var compProperties in weapon.comps)
+            {
+                var compPropertiesType = compProperties.GetType();
+                if (compPropertiesType.FullName != "CombatExtended.CompProperties_AmmoUser")
+                {
+                    continue;
+                }
+
+                var ammoSetField = compPropertiesType.GetField("ammoSet",
+                    BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                var ammoSetObject = ammoSetField?.GetValue(compProperties);
+                if (ammoSetObject == null)
+                {
+                    var ammoSetProperty = compPropertiesType.GetProperty("ammoSet",
+                        BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                    ammoSetObject = ammoSetProperty?.GetValue(compProperties, null);
+                }
+
+                if (ammoSetObject is Def ammoSetDef && !ammoSetDef.defName.NullOrEmpty())
+                {
+                    ammoSetDefName = ammoSetDef.defName;
+                    ammoSetLabel = ammoSetDef.label.NullOrEmpty() ? ammoSetDef.defName : ammoSetDef.label;
+                    return true;
+                }
+
+                if (ammoSetObject == null)
+                {
+                    return false;
+                }
+
+                var ammoSetText = ammoSetObject.ToString();
+                if (ammoSetText.NullOrEmpty())
+                {
+                    return false;
+                }
+
+                ammoSetDefName = ammoSetText;
+                ammoSetLabel = ammoSetText;
+                return true;
+            }
+
+            return false;
+        }
     }
 
 
@@ -639,6 +864,7 @@ public class WeaponsSorter
         Tech = 0,
         Mod = 1,
         Tag = 2,
-        None = 3
+        None = 3,
+        Ammo
     }
 }
